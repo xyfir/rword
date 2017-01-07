@@ -2,8 +2,10 @@ const generateIndexes = require("./lib/generate-indexes");
 const shuffle = require("./lib/shuffle-words");
 const rand = require("./lib/rand");
 
-if (!global.__words) {
-    global.__words = require("./words/english");
+const G = global || window;
+
+if (!G.__words) {
+    G.__words = require("./words/english");
     shuffle();
 
     // Shuffle array on interval
@@ -39,10 +41,10 @@ function rword(count = 1, opt) {
 
     // Skip filtering if possible
     if (!opt.contains && opt.length.start == 3 && opt.length.end == 10) {
-        words = global.__words;
+        words = G.__words;
     }
     else {
-        words = global.__words.filter(word => {
+        words = G.__words.filter(word => {
             // Filter out words that don't match length
             if (opt.length.exactly) {
                 if (word.length != opt.length.exactly)
