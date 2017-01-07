@@ -1,0 +1,28 @@
+{
+  "name": "rword",
+  "version": "1.0.0",
+  "description": "Randomly generate real English words",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xyfir/rword.git"
+  },
+  "keywords": [
+    "random",
+    "randomly",
+    "generated",
+    "generator",
+    "words",
+    "english",
+    "real"
+  ],
+  "author": "Xyfir, LLC (https://xyfir.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xyfir/rword/issues"
+  },
+  "homepage": "https://github.com/Xyfir/rword#readme"
+}
