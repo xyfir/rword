@@ -1,6 +1,6 @@
 {
   "name": "rword",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Randomly generate real English words",
   "main": "index.js",
   "scripts": {
@@ -13,9 +13,11 @@
   "keywords": [
     "random",
     "randomly",
+    "generate",
     "generated",
     "generator",
     "words",
+    "word",
     "english",
     "real"
   ],
