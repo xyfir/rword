@@ -1,91 +1,141 @@
-const generateIndexes = require("./lib/generate-indexes");
-const shuffle = require("./lib/shuffle-words");
-const rand = require("./lib/rand");
+const generateIndexes = require('./lib/generate-indexes');
+const shuffleWords = require('./lib/shuffle-words');
+const rand = require('./lib/rand');
 
-const G = global || window;
+let words = [], globalPool = [];
 
-if (!G.__words) {
-    G.__words = require("./words/english");
-    shuffle();
+class rword {
 
-    // Shuffle array on interval
-    setInterval(() => shuffle(), 60 * rand(10, 30) * 1000);
-}
-
-function rword(count = 1, opt) {
-
+  /**
+   * Randomly generates words from the words array.
+   * @param {number} [count=1] - The maximum number of matching words to return.
+   * @param {object} [opt] - An opt object for filtering and output
+   * modification.
+   * @param {RegExp} [opt.contains] - A regular expression that a word
+   * must match for it to have a chance of being randomly chosen.
+   * @param {string|number|object} [opt.length] - A length or range of
+   * lengths that a word must match for it to have a chance of being randomly
+   * chosen. Is converted to an object internally.
+   * @param {string} [opt.capitalize] - Possible values: 'none', 'first',
+   * 'all'. Determines the capitalization of the randomly chosen words.
+   * @returns {string|string[]} A string if count is 1 and an array of strings
+   * if greater than one.
+   */
+  static generate(count = 1, opt) {
     opt = Object.assign({
-        contains: /.*/g, length: "3-10",
-        capitalize: "none"
+      contains: /.*/g, length: '3-10', capitalize: 'none'
     }, opt);
 
-    // Convert opt.length to object
-    if (typeof opt.length == "string" && opt.length.indexOf("-") > 0) {
-        opt.length = opt.length.split("-");
+    // Convert opt.length to an object
+    if (typeof opt.length == 'string' && opt.length.indexOf('-') > -1) {
+      opt.length = opt.length.split('-');
 
-        opt.length = {
-            start: +opt.length[0], end: +opt.length[1]
-        };
+      opt.length = {
+        start: +opt.length[0], end: +opt.length[1]
+      };
     }
-    else {
-        opt.length = {
-            exactly: +opt.length
-        };
+    // Convert number or string number ('5') to an object
+    else if (typeof opt.length != 'object') {
+      opt.length = {
+        exactly: +opt.length
+      }
     }
 
-    // Convert opt.contains to regular expression
-    if (typeof opt.contains == "string")
-        opt.contains = new RegExp(opt.contains);
+    // Convert opt.contains to a regular expression
+    if (typeof opt.contains == 'string')
+      opt.contains = new RegExp(opt.contains);
 
-    let words;
+    let pool = [];
 
     // Skip filtering if possible
-    if (!opt.contains && opt.length.start == 3 && opt.length.end == 10) {
-        words = G.__words;
+    if (!opt.contains && !opt.length.start == 3 && opt.length.end == 10) {
+      pool = words;
     }
     else {
-        words = G.__words.filter(word => {
-            // Filter out words that don't match length
-            if (opt.length.exactly) {
-                if (word.length != opt.length.exactly)
-                    return false;
-            }
-            else {
-                if (word.length < opt.length.start || word.length > opt.length.end)
-                    return false;
-            }
+      pool = words.filter(word => {
+        // Filter out words that don't match length
+        if (opt.length.exactly) {
+          if (word.length != opt.length.exactly)
+            return false;
+        }
+        else {
+          if (word.length < opt.length.start || word.length > opt.length.end)
+            return false;
+        }
 
-            // Filter out words that don't contain regex
-            if (opt.contains)
-                return opt.contains.test(word);
-            else 
-                return true;
-        });
+        // Filter out words that don't contain regex
+        if (opt.contains)
+          return opt.contains.test(word);
+        else
+          return true;
+      });
+
+      // No matches
+      if (!pool.length) return count == 1 ? '' : [];
+
+      // Generate indexes for words to return
+      const indexes = generateIndexes(pool.length, count), temp = [];
+
+      // Select words by index 
+      indexes.forEach(index => temp.push(pool[index]));
+      pool = temp;
+
+      // Capitalize words
+      switch (opt.capitalize) {
+        case 'all':
+          pool = pool.map(w => w.toUpperCase());
+          break;
+        case 'first':
+          pool = pool.map(w => w[0].toUpperCase() + w.slice(1));
+          break;
+      }
+
+      // Returns string or array of strings
+      return count == 1 ? pool[0] : pool;
     }
+  }
 
-    if (!words.length) return count == 1 ? "" : [];
+  /**
+   * Shuffles words and globalPool arrays.
+   */
+  static shuffle() {
+    shuffleWords(words);
+    shuffleWords(globalPool);
+  }
 
-    // Generate indexes for words to return
-    const indexes = generateIndexes(words.length, count), temp = [];
+  /**
+   * A simple generator that pulls words from a prefilled global pool. Should
+   * be preferred over rword.generate() if custom filters are not needed as
+   * this method is many times faster.
+   * @param {number} [count=1] - How many words to return. Will throw an error
+   * if greater than 500.
+   * @returns {string|string[]} A string if count is 1 and an array of strings
+   * if greater than one.
+   */
+  static generateFromPool(count = 1) {
+    if (count > 500) throw 'Too many words requested. Use rword.generate() instead.';
 
-    // Select words by index
-    // Faster than looping through all elements in words[]
-    indexes.forEach(index => temp.push(words[index]));
-    words = temp;
+    // Fill globalPool
+    if (count > globalPool.length)
+      globalPool = this.generate(500);
+    
+    let pool = [];
 
-    // Capitalize words
-    if (opt.capitalize != "none") {
-        if (opt.capitalize == "all")
-            words = words.map(w => w.toUpperCase());
-        else if (opt.capitalize == "first")
-            words = words.map(w => w[0].toUpperCase() + w.slice(1));
-    }
+    for (let i = 0; i < count; i++) pool.push(globalPool.pop());
 
-    // Return string or array of string
-    return count == 1 ? words[0] : words;
+    return count == 1 ? pool[0] : pool;
+  }
 
 }
 
-rword.shuffle = shuffle;
+// Populate words[] for the first time
+if (!words.length) {
+  words = require('./words/english');
+  
+  rword.shuffle();
+
+  // Shuffle array on a random interval
+  setInterval(() => rword.shuffle(), 60 * rand(10, 30) * 1000);
+}
 
 module.exports = rword;
