@@ -65,7 +65,7 @@ Generates words from the global **pool** array. The pool is automatically filled
 
 ## rword.shuffle()
 
-Shuffles both the global words and pool arrays. This method can most likely be ignored as it is automatically called on first run and then every 10-30 mimnutes after.
+Shuffles both the global words and pool arrays. This method can most likely be ignored as it is automatically called on first run and then every 10 to 30 minutes after.
 
 # How are the words generated?
 
