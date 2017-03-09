@@ -23,7 +23,7 @@ class rword {
    */
   static generate(count = 1, opt) {
     opt = Object.assign({
-      contains: /.*/g, length: '3-10', capitalize: 'none'
+      contains: /.*/, length: '3-10', capitalize: 'none'
     }, opt);
 
     // Convert opt.length to an object
@@ -46,11 +46,12 @@ class rword {
       opt.contains = new RegExp(opt.contains);
 
     let pool = [];
-
+    
     // Skip filtering if possible
-    if (!opt.contains && !opt.length.start == 3 && opt.length.end == 10) {
+    if (opt.contains == '/.*/' && opt.length.start == 3 && opt.length.end == 10) {
       pool = words;
     }
+    // Filter out unwanted words
     else {
       pool = words.filter(word => {
         // Filter out words that don't match length
@@ -69,30 +70,30 @@ class rword {
         else
           return true;
       });
-
-      // No matches
-      if (!pool.length) return count == 1 ? '' : [];
-
-      // Generate indexes for words to return
-      const indexes = generateIndexes(pool.length, count), temp = [];
-
-      // Select words by index 
-      indexes.forEach(index => temp.push(pool[index]));
-      pool = temp;
-
-      // Capitalize words
-      switch (opt.capitalize) {
-        case 'all':
-          pool = pool.map(w => w.toUpperCase());
-          break;
-        case 'first':
-          pool = pool.map(w => w[0].toUpperCase() + w.slice(1));
-          break;
-      }
-
-      // Returns string or array of strings
-      return count == 1 ? pool[0] : pool;
     }
+
+    // No matches
+    if (!pool.length) return count == 1 ? '' : [];
+
+    // Generate indexes for words to return
+    const indexes = generateIndexes(pool.length, count), temp = [];
+
+    // Select words by index 
+    indexes.forEach(index => temp.push(pool[index]));
+    pool = temp;
+
+    // Capitalize words
+    switch (opt.capitalize) {
+      case 'all':
+        pool = pool.map(w => w.toUpperCase());
+        break;
+      case 'first':
+        pool = pool.map(w => w[0].toUpperCase() + w.slice(1));
+        break;
+    }
+
+    // Returns string or array of strings
+    return count == 1 ? pool[0] : pool;
   }
 
   /**
@@ -108,20 +109,19 @@ class rword {
    * be preferred over rword.generate() if custom filters are not needed as
    * this method is many times faster.
    * @param {number} [count=1] - How many words to return. Will throw an error
-   * if greater than 500.
+   * if greater than 10.
    * @returns {string|string[]} A string if count is 1 and an array of strings
    * if greater than one.
    */
   static generateFromPool(count = 1) {
-    if (count > 500) throw 'Too many words requested. Use rword.generate() instead.';
+    if (count > 10)
+      throw 'Too many words requested. Use rword.generate().';
 
     // Fill globalPool
     if (count > globalPool.length)
       globalPool = this.generate(500);
     
-    let pool = [];
-
-    for (let i = 0; i < count; i++) pool.push(globalPool.pop());
+    const pool = globalPool.splice(0, count);
 
     return count == 1 ? pool[0] : pool;
   }
