@@ -54,14 +54,14 @@ Generates words from the global words array.
 
 ## rword.generateFromPool(count)
 
-Generates words from the global **pool** array. The pool is automatically filled using `rword.generate(500)` and then words are taken out of that array as needed. Much faster than rword.generate().
+Generates words from the global pool array. The pool is automatically filled using `rword.generate(500)` and then words are taken out of that array as needed. Faster than rword.generate() for generating small amounts of words.
 
 - `count: number` - Optional (default 1) - How many words to return. If 1 or not present, a string is returned. If greater than 1 an array of strings is returned.
 
 **Limitations:**
 
 - No options object is accepted.
-- You cannot request more than 500 words through this method.
+- You cannot request more than 10 words through this method.
 
 ## rword.shuffle()
 
@@ -75,5 +75,5 @@ The words array is shuffled on first load with `Math.random()` and every 10 to 3
 
 - Requesting a single word will always return a string. Requesting multiple words will always return an array.
 - When using any of the filter properties for the options object in rword.generate(), there's no guarantee you'll receive a word or as many words as you requested. If you requested one word and none where found, an empty string will be returned. If you requested multiple words and none were found an empty array will be returned.
-- It is *much* faster to generate multiple words in one call than it is to make multiple calls. Don't be afraid to generate large arrays of random words. If you know you'll need multiple words, try to keep it all in one call. Don't call rword from within a loop if you can help it. **It's faster to generate 10,000 words in one call than it is one word in 10 calls.**
-- Use rword.generateFromPool() over rword.generate() if possible as it is many times faster.
+- Adding filters to `rword.generate()` via the `contains` or `length` property of the `options` argument object is slow, and should be avoided if possible.
+- Use `rword.generateFromPool()` over `rword.generate()` if possible as it can be many times faster, especially for generating a single word.
