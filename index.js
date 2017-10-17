@@ -1,24 +1,27 @@
 const generateIndexes = require('./lib/generate-indexes');
 const shuffleWords = require('./lib/shuffle-words');
-const rand = require('./lib/rand');
+const rand = require('crypto-random');
 
 let words = [], globalPool = [];
 
 class rword {
 
   /**
-   * Randomly generates words from the words array.
-   * @param {number} [count=1] - The maximum number of matching words to return.
-   * @param {object} [opt] - An opt object for filtering and output
-   * modification.
-   * @param {RegExp} [opt.contains] - A regular expression that a word
+   * @typedef {object} GenerateOptions
+   * @prop {RegExp} [contains] - A regular expression that a word
    * must match for it to have a chance of being randomly chosen.
-   * @param {string|number|object} [opt.length] - A length or range of
+   * @prop {string|number|object} [length] - A length or range of
    * lengths that a word must match for it to have a chance of being randomly
    * chosen. Is converted to an object internally.
-   * @param {string} [opt.capitalize] - Possible values: 'none', 'first',
+   * @prop {string} [capitalize] - Possible values: 'none', 'first',
    * 'all'. Determines the capitalization of the randomly chosen words.
-   * @returns {string|string[]} A string if count is 1 and an array of strings
+   */
+  /**
+   * Randomly generates words from the words array.
+   * @param {number} [count=1] - The maximum number of matching words to return.
+   * @param {GenerateOptions} [opt] - An options object for filtering and 
+   * output modification.
+   * @return {string|string[]} A string if count is 1 and an array of strings
    * if greater than one.
    */
   static generate(count = 1, opt) {
@@ -114,12 +117,10 @@ class rword {
    * if greater than one.
    */
   static generateFromPool(count = 1) {
-    if (count > 10)
-      throw 'Too many words requested. Use rword.generate().';
+    if (count > 10) throw 'Too many words requested. Use rword.generate().';
 
     // Fill globalPool
-    if (count > globalPool.length)
-      globalPool = this.generate(500);
+    if (count > globalPool.length) globalPool = this.generate(500);
     
     const pool = globalPool.splice(0, count);
 
@@ -135,7 +136,7 @@ if (!words.length) {
   rword.shuffle();
 
   // Shuffle array on a random interval
-  setInterval(() => rword.shuffle(), 60 * rand(10, 30) * 1000);
+  setInterval(() => rword.shuffle(), 60 * rand.range(10, 30) * 1000);
 }
 
 module.exports = rword;
