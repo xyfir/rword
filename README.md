@@ -1,4 +1,4 @@
-A random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.
+A cryptographically secure random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.
 
 Used by [Ptorx](https://ptorx.com/) and other projects in the [Xyfir Network](https://xyfir.com/#/network).
 
@@ -67,12 +67,9 @@ Generates words from the global pool array. The pool is automatically filled usi
 
 Shuffles both the global words and pool arrays. This method can most likely be ignored as it is automatically called on first run and then every 10 to 30 minutes after.
 
-# How are the words generated?
-
-The words array is shuffled on first load with `Math.random()` and every 10 to 30 minutes after, or whenever `rword.shuffle()` is called. Words are then randomly selected from this array using `Math.random()` again. The shuffled words arrays are shared across all rword instances.
-
 # Notes
 
+- rword generates random words using numbers generated via the [crypto-random](https://github.com/SkepticalHippo/crypto-random) library which uses `crypto.randomBytes()` when in Node and `crypto.getRandomValues()` in the browser.
 - Requesting a single word will always return a string. Requesting multiple words will always return an array.
 - When using any of the filter properties for the options object in rword.generate(), there's no guarantee you'll receive a word or as many words as you requested. If you requested one word and none where found, an empty string will be returned. If you requested multiple words and none were found an empty array will be returned.
 - Adding filters to `rword.generate()` via the `contains` or `length` property of the `options` argument object is slow, and should be avoided if possible.
