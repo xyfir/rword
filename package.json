@@ -1,6 +1,6 @@
 {
   "name": "rword",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Randomly generate real English words",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/Xyfir/rword/issues"
   },
-  "homepage": "https://github.com/Xyfir/rword#readme"
+  "homepage": "https://github.com/Xyfir/rword#readme",
+  "dependencies": {
+    "crypto-random": "^1.0.3"
+  }
 }
