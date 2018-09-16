@@ -1,7 +1,7 @@
 {
   "name": "rword",
   "version": "2.3.0",
-  "description": "Randomly generate real English words",
+  "description": "A cryptographically secure random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
