@@ -6,22 +6,28 @@ let globalPool = [];
 
 class rword {
   /**
+   * @typedef {object} Length
+   * @prop {number} [exactly]
+   * @prop {number} [start]
+   * @prop {number} [end]
+   */
+  /**
    * @typedef {object} GenerateOptions
    * @prop {RegExp} [contains] - A regular expression that a word
-   * must match for it to have a chance of being randomly chosen.
-   * @prop {string|number|object} [length] - A length or range of
-   * lengths that a word must match for it to have a chance of being randomly
-   * chosen. Is converted to an object internally.
-   * @prop {string} [capitalize] - Possible values: 'none', 'first',
-   * 'all'. Determines the capitalization of the randomly chosen words.
+   *  must match for it to have a chance of being randomly chosen.
+   * @prop {string|number|Length} [length] - A length or range of
+   *  lengths that a word must match for it to have a chance of being randomly
+   *  chosen. Is converted to an object internally.
+   * @prop {string} [capitalize] - `'none' | 'first' | 'all'` Determines the
+   *  capitalization of the randomly chosen words.
    */
   /**
    * Randomly generates words from the words array.
-   * @param {number} [count=1] - The maximum number of matching words to return.
+   * @param {number} [count] - The maximum number of matching words to return.
    * @param {GenerateOptions} [opt] - An options object for filtering and
-   * output modification.
-   * @return {string|string[]} A string if count is 1 and an array of strings
-   * if greater than one.
+   *  output modification.
+   * @return {string|string[]} A string if count is `1` and an array of strings
+   *  if greater than one.
    */
   static generate(count = 1, opt) {
     opt = Object.assign(
@@ -105,9 +111,7 @@ class rword {
     return count == 1 ? pool[0] : pool;
   }
 
-  /**
-   * Shuffles words and globalPool arrays.
-   */
+  /** Shuffles words and globalPool arrays. */
   static shuffle() {
     shuffleWords(words);
     shuffleWords(globalPool);
@@ -115,12 +119,12 @@ class rword {
 
   /**
    * A simple generator that pulls words from a prefilled global pool. Should
-   * be preferred over rword.generate() if custom filters are not needed as
-   * this method is many times faster.
-   * @param {number} [count=1] - How many words to return. Will throw an error
-   * if greater than 10.
-   * @return {string|string[]} A string if count is 1 and an array of strings
-   * if greater than one.
+   *  be preferred over `rword.generate()` if custom filters are not needed as
+   *  this method can in certain instances be many times faster.
+   * @param {number} [count] - How many words to return. Will throw an error
+   *  if greater than `10`.
+   * @return {string|string[]} A string if count is `1` and an array of strings
+   *  if greater than one.
    * @throws {string}
    */
   static generateFromPool(count = 1) {
