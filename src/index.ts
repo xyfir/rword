@@ -18,6 +18,10 @@ interface GenerateOptions {
 export class rword {
   static globalPool: string[] = [];
 
+  static get words(): string[] {
+    return words;
+  }
+
   /** Randomly generates words from the words array. */
   static generate(count: number = 1, opt?: GenerateOptions): string | string[] {
     opt = Object.assign(
