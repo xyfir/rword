@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { rword } from './index';
+import { rword } from './rword';
 
 assert(typeof rword.generate() == 'string', 'generate() type');
 assert(Array.isArray(rword.generate(2)), 'generate(2) type');
