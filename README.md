@@ -1,11 +1,13 @@
-A cryptographically secure random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.
+A cryptographically secure Node.js random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.
 
-Used and maintained by [**Ptorx**](https://ptorx.com/) and other [**Xyfir**](https://www.xyfir.com) projects.
+Used and maintained by [**Ptorx**](https://ptorx.com) and other [**Xyfir**](https://www.xyfir.com) projects.
+
+**Note:** rword stores its words array in memory, and limited testing shows this to add about ~20 MB to Node's heap. rword is built to be fast and self-contained without the need for a database and this price is paid at the expense of your RAM.
 
 # Examples
 
 ```js
-const rword = require('rword');
+const { rword } = require('rword');
 
 rword.generate();
 // 'bioplasm'
@@ -52,6 +54,8 @@ Generates words from the global words array.
 - `options.contains: string|RegExp` - Optional (default `/.*/`) - Words that don't match the regexp will not be returned.
 - `options.capitalize: string` - Optional (default `'none'`) - Changes the capitalization of the words returned. Possible values: `'none' | 'all' | 'first'`.
 
+It should be obvious, but be warned that there's no guarantee you'll receive as many words as requested if you use any of the filtering options. In addition, adding filters to is slow, and should be avoided if possible. Use `rword.generateFromPool()` if possible as it can be much faster, especially for generating a single word.
+
 ## `rword.generateFromPool(count)`
 
 Generates words from the global pool array. The pool is automatically filled using `rword.generate(500)` and then words are taken out of that array as needed. Can be faster than `rword.generate()` for generating small amounts of words.
@@ -67,10 +71,6 @@ Generates words from the global pool array. The pool is automatically filled usi
 
 Shuffles both the global and pool words arrays. This method can most likely be ignored as it is automatically called on first run.
 
-# Notes
+## `rword.words`
 
-- rword should work in most all modern browsers, but Node is the real target, and due to the large size of the words array you really should avoid using rword in the browser if possible.
-- rword generates random words using numbers generated via `crypto.randomBytes()` when in Node and `crypto.getRandomValues()` in the browser.
-- When using any of the filter properties for the options object in rword.generate(), there's no guarantee you'll receive a word or as many words as you requested.
-- Adding filters to `rword.generate()` via the `contains` or `length` property of the `options` argument object is slow, and should be avoided if possible.
-- Use `rword.generateFromPool()` over `rword.generate()` if possible as it can be much faster, especially for generating a single word.
+The full (shuffled) words array that is used internally by rword. Likely there's no need for this but if you'd like to bypass the rword API and just utilize its words then this is what you'll need.
