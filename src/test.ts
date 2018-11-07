@@ -46,6 +46,14 @@ assert.equal(
   'generate() capitalize first'
 );
 
+assert.equal(
+  (rword.generate(10, { contains: /ing$/ }) as string[]).filter(w =>
+    /ing$/.test(w)
+  ).length,
+  10,
+  'generate() contains'
+);
+
 assert(typeof rword.generateFromPool() == 'string', 'generateFromPool() type');
 assert(Array.isArray(rword.generateFromPool(2)), 'generateFromPool(2) type');
 assert.throws(() => rword.generateFromPool(11), 'generateFromPool(11)');
