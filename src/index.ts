@@ -12,7 +12,7 @@ interface GenerateOptions {
    */
   length?: string | number;
   /** Determines the capitalization of the randomly chosen words */
-  capitalize: 'none' | 'first' | 'all';
+  capitalize?: 'none' | 'first' | 'all';
 }
 
 export class rword {
