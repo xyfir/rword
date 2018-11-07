@@ -4,7 +4,8 @@
   "description": "A cryptographically secure random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p ./"
+    "build": "tsc -p ./",
+    "test": "node dist/test"
   },
   "repository": {
     "type": "git",
