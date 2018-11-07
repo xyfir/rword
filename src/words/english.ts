@@ -1,4 +1,4 @@
-module.exports = [
+export const words = [
   'aah',
   'aal',
   'aalii',

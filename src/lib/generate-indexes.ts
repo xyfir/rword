@@ -1,4 +1,4 @@
-const rand = require('./random');
+import { Random } from './random';
 
 /**
  * Randomly generate numbers for indexes within the words array.
@@ -6,11 +6,11 @@ const rand = require('./random');
  * @param {number} count - How many indexes to generate.
  * @return {number[]}
  */
-module.exports = function(length, count) {
+export function generateIndexes(length, count) {
   const indexes = [];
 
   while (true) {
-    const index = rand.range(0, length);
+    const index = Random.range(0, length);
 
     // Check if the index has been chosen before
     if (indexes.indexOf(index) == -1) indexes.push(index);
@@ -21,4 +21,4 @@ module.exports = function(length, count) {
   }
 
   return indexes;
-};
+}

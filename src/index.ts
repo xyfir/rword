@@ -1,10 +1,10 @@
-const generateIndexes = require('./lib/generate-indexes');
-const shuffleWords = require('./lib/shuffle-words');
+import { generateIndexes } from './lib/generate-indexes';
+import { shuffleWords } from './lib/shuffle-words';
+import { words } from './words/english';
 
-let words = [];
 let globalPool = [];
 
-class rword {
+export class rword {
   /**
    * @typedef {object} Length
    * @prop {number} [exactly]
@@ -140,9 +140,4 @@ class rword {
 }
 
 // Populate words[] for the first time
-if (!words.length) {
-  words = require('./words/english');
-  rword.shuffle();
-}
-
-module.exports = rword;
+if (!words.length) rword.shuffle();

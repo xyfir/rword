@@ -1,5 +1,7 @@
+import * as crypto from 'crypto';
+
 // Modified from https://github.com/SkepticalHippo/crypto-random
-class Random {
+export class Random {
   /**
    * Generate a random number between `0` (inclusive) and `1` (exclusive). A
    *  drop in replacement for `Math.random()`
@@ -27,7 +29,6 @@ class Random {
    * @return {number}
    */
   static _nodeValue() {
-    const crypto = require('crypto');
     return this._intToFloat(
       parseInt(crypto.randomBytes(8).toString('hex'), 16)
     );
@@ -54,5 +55,3 @@ class Random {
     return integer / Math.pow(2, 64);
   }
 }
-
-module.exports = Random;

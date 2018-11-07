@@ -2,9 +2,9 @@
   "name": "rword",
   "version": "2.3.0",
   "description": "A cryptographically secure random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p ./"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,9 @@
   "prettier": {
     "singleQuote": true
   },
-  "homepage": "https://github.com/Xyfir/rword#readme"
+  "homepage": "https://github.com/Xyfir/rword#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.2",
+    "typescript": "^3.1.6"
+  }
 }

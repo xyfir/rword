@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "rootDir": "./src",
+    "newLine": "LF",
+    "target": "esnext",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "watch": true
+  }
+}
