@@ -2,11 +2,10 @@ import { Random } from './random';
 
 /**
  * Randomly generate numbers for indexes within the words array.
- * @param {number} length - The length of the words array.
- * @param {number} count - How many indexes to generate.
- * @return {number[]}
+ * @param length - The length of the words array.
+ * @param count - How many indexes to generate.
  */
-export function generateIndexes(length, count) {
+export function generateIndexes(length: number, count: number): number[] {
   const indexes = [];
 
   while (true) {

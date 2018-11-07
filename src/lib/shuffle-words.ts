@@ -2,9 +2,9 @@ import { Random } from './random';
 
 /**
  * Shuffle the words array in place.
- * @param {string[]} words - The words array to shuffle.
+ * @param words - The words array to shuffle.
  */
-export function shuffleWords(words) {
+export function shuffleWords(words: string[]) {
   let i = 0;
   let j = 0;
   let temp = '';

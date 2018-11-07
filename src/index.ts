@@ -2,34 +2,24 @@ import { generateIndexes } from './lib/generate-indexes';
 import { shuffleWords } from './lib/shuffle-words';
 import { words } from './words/english';
 
-let globalPool = [];
+/** An options object for filtering and output modification */
+interface GenerateOptions {
+  /**  Regex words must match to have a chance of being randomly chosen */
+  contains?: RegExp;
+  /**
+   * A length or range of lengths that a word must match for it to have a
+   *  chance of being randomly chosen
+   */
+  length?: string | number;
+  /** Determines the capitalization of the randomly chosen words */
+  capitalize: 'none' | 'first' | 'all';
+}
 
 export class rword {
-  /**
-   * @typedef {object} Length
-   * @prop {number} [exactly]
-   * @prop {number} [start]
-   * @prop {number} [end]
-   */
-  /**
-   * @typedef {object} GenerateOptions
-   * @prop {RegExp} [contains] - A regular expression that a word
-   *  must match for it to have a chance of being randomly chosen.
-   * @prop {string|number|Length} [length] - A length or range of
-   *  lengths that a word must match for it to have a chance of being randomly
-   *  chosen. Is converted to an object internally.
-   * @prop {string} [capitalize] - `'none' | 'first' | 'all'` Determines the
-   *  capitalization of the randomly chosen words.
-   */
-  /**
-   * Randomly generates words from the words array.
-   * @param {number} [count] - The maximum number of matching words to return.
-   * @param {GenerateOptions} [opt] - An options object for filtering and
-   *  output modification.
-   * @return {string|string[]} A string if count is `1` and an array of strings
-   *  if greater than one.
-   */
-  static generate(count = 1, opt) {
+  static globalPool: string[] = [];
+
+  /** Randomly generates words from the words array. */
+  static generate(count: number = 1, opt?: GenerateOptions): string | string[] {
     opt = Object.assign(
       {
         contains: /.*/,
@@ -39,20 +29,16 @@ export class rword {
       opt
     );
 
+    let length: { exactly?: number; start?: number; end?: number } = {};
+
     // Convert opt.length to an object
     if (typeof opt.length == 'string' && opt.length.indexOf('-') > -1) {
-      opt.length = opt.length.split('-');
-
-      opt.length = {
-        start: +opt.length[0],
-        end: +opt.length[1]
-      };
+      const l = opt.length.split('-');
+      length = { start: +l[0], end: +l[1] };
     }
     // Convert number or string number ('5') to an object
     else if (typeof opt.length != 'object') {
-      opt.length = {
-        exactly: +opt.length
-      };
+      length = { exactly: +opt.length };
     }
 
     // Convert opt.contains to a regular expression
@@ -63,9 +49,9 @@ export class rword {
 
     // Skip filtering if possible
     if (
-      opt.contains == '/.*/' &&
-      opt.length.start == 3 &&
-      opt.length.end == 10
+      opt.contains.toString() == '/.*/' &&
+      length.start == 3 &&
+      length.end == 10
     ) {
       pool = words;
     }
@@ -73,10 +59,10 @@ export class rword {
     else {
       pool = words.filter(word => {
         // Filter out words that don't match length
-        if (opt.length.exactly) {
-          if (word.length != opt.length.exactly) return false;
+        if (length.exactly) {
+          if (word.length != length.exactly) return false;
         } else {
-          if (word.length < opt.length.start || word.length > opt.length.end)
+          if (word.length < length.start || word.length > length.end)
             return false;
         }
 
@@ -112,28 +98,25 @@ export class rword {
   }
 
   /** Shuffles words and globalPool arrays. */
-  static shuffle() {
+  static shuffle(): void {
     shuffleWords(words);
-    shuffleWords(globalPool);
+    shuffleWords(rword.globalPool);
   }
 
   /**
    * A simple generator that pulls words from a prefilled global pool. Should
    *  be preferred over `rword.generate()` if custom filters are not needed as
    *  this method can in certain instances be many times faster.
-   * @param {number} [count] - How many words to return. Will throw an error
-   *  if greater than `10`.
-   * @return {string|string[]} A string if count is `1` and an array of strings
-   *  if greater than one.
-   * @throws {string}
+   * @param count - Words to return. Throws error if greater than `10`
    */
-  static generateFromPool(count = 1) {
+  static generateFromPool(count: number = 1): string | string[] {
     if (count > 10) throw 'Too many words requested. Use rword.generate().';
 
     // Fill globalPool
-    if (count > globalPool.length) globalPool = this.generate(500);
+    if (count > rword.globalPool.length)
+      rword.globalPool = this.generate(500) as string[];
 
-    const pool = globalPool.splice(0, count);
+    const pool = rword.globalPool.splice(0, count);
 
     return count == 1 ? pool[0] : pool;
   }
