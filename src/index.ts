@@ -5,7 +5,7 @@ import { words } from './words/english';
 /** An options object for filtering and output modification */
 interface GenerateOptions {
   /**  Regex words must match to have a chance of being randomly chosen */
-  contains?: RegExp;
+  contains?: RegExp | string;
   /**
    * A length or range of lengths that a word must match for it to have a
    *  chance of being randomly chosen
@@ -34,6 +34,8 @@ export class rword {
     );
 
     let length: { exactly?: number; start?: number; end?: number } = {};
+    const contains =
+      typeof opt.contains == 'string' ? new RegExp(opt.contains) : opt.contains;
 
     // Convert opt.length to an object
     if (typeof opt.length == 'string' && opt.length.indexOf('-') > -1) {
@@ -45,15 +47,11 @@ export class rword {
       length = { exactly: +opt.length };
     }
 
-    // Convert opt.contains to a regular expression
-    if (typeof opt.contains == 'string')
-      opt.contains = new RegExp(opt.contains);
-
     let pool = [];
 
     // Skip filtering if possible
     if (
-      opt.contains.toString() == '/.*/' &&
+      contains.toString() == '/.*/' &&
       length.start == 3 &&
       length.end == 10
     ) {
@@ -71,7 +69,7 @@ export class rword {
         }
 
         // Filter out words that don't contain regex
-        if (opt.contains) return opt.contains.test(word);
+        if (contains) return contains.test(word);
         else return true;
       });
     }
