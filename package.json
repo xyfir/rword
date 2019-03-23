@@ -1,10 +1,11 @@
 {
   "name": "rword",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A cryptographically secure random generator for real English words. Contains ~130,000 English words between 3 and 10 characters long.",
   "main": "dist/rword.js",
   "types": "dist/rword.d.ts",
   "scripts": {
+    "watch-build": "npm run build -- -w",
     "build": "tsc -p ./",
     "test": "node dist/test"
   },
@@ -21,9 +22,12 @@
     "words",
     "word",
     "english",
-    "real"
+    "real",
+    "cryptographically secure",
+    "csprng",
+    "cprng"
   ],
-  "author": "Xyfir, LLC (https://www.xyfir.com/)",
+  "author": "Xyfir, LLC (https://www.xyfir.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Xyfir/rword/issues"
@@ -33,7 +37,7 @@
   },
   "homepage": "https://github.com/Xyfir/rword#readme",
   "devDependencies": {
-    "@types/node": "^10.12.2",
-    "typescript": "^3.1.6"
+    "@types/node": "^11.11.6",
+    "typescript": "^3.3.4000"
   }
 }
