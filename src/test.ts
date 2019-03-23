@@ -58,4 +58,4 @@ assert(typeof rword.generateFromPool() == 'string', 'generateFromPool() type');
 assert(Array.isArray(rword.generateFromPool(2)), 'generateFromPool(2) type');
 assert.throws(() => rword.generateFromPool(11), 'generateFromPool(11)');
 
-console.log('Tests complete without error');
+console.log('Tests completed without error');
