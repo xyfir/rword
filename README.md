@@ -1,13 +1,13 @@
 A cryptographically secure Node.js random generator for real English words. Contains almost 130,000 English words between 3 and 10 characters long.
 
-Used and maintained by [**Ptorx**](https://ptorx.com) and other [**Xyfir**](https://www.xyfir.com) projects.
+Built and maintained by [**Ptorx**](https://ptorx.com) and other [**Xyfir Network**](https://www.xyfir.com) projects.
 
 **Note:** rword stores its words array in memory, and limited testing shows this to add about ~20 MB to Node's heap. rword is built to be fast and self-contained without the need for a database and this price is paid at the expense of your RAM.
 
 # Examples
 
-```js
-const { rword } = require('rword');
+```ts
+import { rword } from 'rword';
 
 rword.generate();
 // 'bioplasm'
@@ -38,8 +38,6 @@ rword.generate(3, { capitalize: 'first' });
 
 rword.generateFromPool(5);
 // [ 'intimae', 'shandygaff', 'likable', 'unrebated', 'broken' ]
-
-rword.shuffle();
 ```
 
 # API
