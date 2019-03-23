@@ -6,7 +6,6 @@
     "newLine": "LF",
     "target": "esnext",
     "module": "commonjs",
-    "outDir": "./dist",
-    "watch": true
+    "outDir": "./dist"
   }
 }
