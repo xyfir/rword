@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [3.1.1] - 2019-04-25
+
+### Removed
+
+- Words from "small" word list that contained non `a-z` characters
+
 ## [3.1.0] - 2019-04-25
 
 ### Added
@@ -24,5 +30,6 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 - Words not actually being shuffled on first load
 
-[unreleased]: https://github.com/Xyfir/rword/compare/3.1.0...HEAD
+[unreleased]: https://github.com/Xyfir/rword/compare/3.1.1...HEAD
+[3.1.1]: https://github.com/Xyfir/rword/releases/tag/3.1.0...3.1.1
 [3.1.0]: https://github.com/Xyfir/rword/releases/tag/3.1.0

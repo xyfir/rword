@@ -1,6 +1,6 @@
 {
   "name": "rword",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A cryptographically secure random generator for real English words. Contains 370,000 words.",
   "main": "dist/rword.js",
   "types": "dist/rword.d.ts",
