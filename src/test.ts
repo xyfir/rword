@@ -5,7 +5,10 @@ assert(typeof rword.generate() == 'string', 'generate() type');
 assert(Array.isArray(rword.generate(2)), 'generate(2) type');
 assert.equal(rword.generate(15).length, 15, 'generate(15) length');
 
-assert.equal(rword.words.length, 128830, 'words');
+assert.equal(rword.words.length, 128830, 'word list (small)');
+
+rword.load('big');
+assert.equal(rword.words.length, 370099, 'word list (big)');
 
 const word = rword.words[0];
 rword.shuffle();
