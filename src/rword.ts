@@ -35,19 +35,26 @@ export class rword {
 
     let length: { exactly?: number; start?: number; end?: number } = {};
     const contains =
-      typeof opt.contains == 'string' ? new RegExp(opt.contains) : opt.contains;
+      typeof opt.contains == 'string'
+        ? new RegExp(opt.contains)
+        : (opt.contains as RegExp);
 
     // Convert opt.length to an object
-    if (typeof opt.length == 'string' && opt.length.indexOf('-') > -1) {
-      const l = opt.length.split('-');
-      length = { start: +l[0], end: +l[1] };
+    // From string
+    if (typeof opt.length == 'string') {
+      if (opt.length.indexOf('-') > -1) {
+        const [start, end] = opt.length.split('-').map(Number);
+        length = { start, end };
+      } else {
+        opt.length = +opt.length;
+      }
     }
-    // Convert number or string number ('5') to an object
-    else if (typeof opt.length != 'object') {
-      length = { exactly: +opt.length };
+    // From number
+    if (typeof opt.length == 'number') {
+      length = { exactly: opt.length };
     }
 
-    let pool = [];
+    let pool: string[] = [];
 
     // Skip filtering if possible
     if (
@@ -64,7 +71,10 @@ export class rword {
         if (length.exactly) {
           if (word.length != length.exactly) return false;
         } else {
-          if (word.length < length.start || word.length > length.end)
+          if (
+            word.length < (length.start as number) ||
+            word.length > (length.end as number)
+          )
             return false;
         }
 
@@ -79,7 +89,7 @@ export class rword {
 
     // Generate indexes for words to return
     const indexes = generateIndexes(pool.length, count);
-    const temp = [];
+    const temp: string[] = [];
 
     // Select words by index
     indexes.forEach(index => temp.push(pool[index]));
