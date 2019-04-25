@@ -1,7 +1,7 @@
 {
   "name": "rword",
-  "version": "3.0.1",
-  "description": "A cryptographically secure random generator for real English words. Contains ~130,000 English words between 3 and 10 characters long.",
+  "version": "3.1.0",
+  "description": "A cryptographically secure random generator for real English words. Contains 370,000 words.",
   "main": "dist/rword.js",
   "types": "dist/rword.d.ts",
   "scripts": {
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/Xyfir/rword#readme",
   "devDependencies": {
-    "@types/node": "^11.11.6",
-    "typescript": "^3.3.4000"
+    "@types/node": "^11.13.7",
+    "typescript": "^3.4.5"
   }
 }
