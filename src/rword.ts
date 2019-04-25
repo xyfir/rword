@@ -1,17 +1,27 @@
 import { generateIndexes } from './lib/generate-indexes';
 import { shuffleWords } from './lib/shuffle-words';
-import { words } from './words/english';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
-/** An options object for filtering and output modification */
-interface GenerateOptions {
-  /**  Regex words must match to have a chance of being randomly chosen */
-  contains?: RegExp | string;
+let words: string[] = [];
+
+export interface GenerateOptions {
   /**
    * A length or range of lengths that a word must match for it to have a
    *  chance of being randomly chosen
+   * @example 5
+   * @example "3-10"
    */
   length?: string | number;
-  /** Determines the capitalization of the randomly chosen words */
+  /**
+   * Regex words must match to have a chance of being randomly chosen
+   * @example "word"
+   * @example /ing$/
+   */
+  contains?: RegExp | string;
+  /**
+   * Sets the capitalization of the randomly chosen words
+   */
   capitalize?: 'none' | 'first' | 'all';
 }
 
@@ -22,7 +32,9 @@ export class rword {
     return words;
   }
 
-  /** Randomly generates words from the words array. */
+  /**
+   * Randomly generates words from the words array
+   */
   static generate(count: number = 1, opt?: GenerateOptions): string | string[] {
     opt = Object.assign(
       {
@@ -109,12 +121,6 @@ export class rword {
     return count == 1 ? pool[0] : pool;
   }
 
-  /** Shuffles words and globalPool arrays. */
-  static shuffle(): void {
-    shuffleWords(words);
-    shuffleWords(rword.globalPool);
-  }
-
   /**
    * A simple generator that pulls words from a prefilled global pool. Should
    *  be preferred over `rword.generate()` if custom filters are not needed as
@@ -126,13 +132,30 @@ export class rword {
 
     // Fill globalPool
     if (count > rword.globalPool.length)
-      rword.globalPool = this.generate(500) as string[];
+      rword.globalPool = rword.generate(500) as string[];
 
     const pool = rword.globalPool.splice(0, count);
 
     return count == 1 ? pool[0] : pool;
   }
+
+  /**
+   * Shuffles words and globalPool arrays
+   */
+  static shuffle(): void {
+    shuffleWords(words);
+    shuffleWords(rword.globalPool);
+  }
+
+  /**
+   * Load and shuffle word list
+   */
+  static load(list: 'big' | 'small') {
+    words = JSON.parse(
+      readFileSync(resolve(__dirname, `../words/${list}.json`), 'utf8')
+    );
+    rword.shuffle();
+  }
 }
 
-// Populate words[] for the first time
-if (!words.length) rword.shuffle();
+rword.load('small');
