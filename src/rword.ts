@@ -151,9 +151,11 @@ export class rword {
    * Load and shuffle word list
    */
   static load(list: 'big' | 'small') {
-    words = JSON.parse(
-      readFileSync(resolve(__dirname, `../words/${list}.json`), 'utf8')
-    );
+    if (list === 'small') {
+      words = require('../words/small.json');
+    } else {
+      words = require('../words/big.json');
+    }
     rword.shuffle();
   }
 }
