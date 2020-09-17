@@ -8,7 +8,7 @@
     "watch-build": "npm run build -- -w",
     "build": "tsc -p ./",
     "test": "node dist/test",
-    "preinstall": "tsc -p ./"
+    "prepare": "tsc -p ./"
   },
   "repository": {
     "type": "git",
