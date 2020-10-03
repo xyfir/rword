@@ -1,18 +1,18 @@
 {
   "name": "rword",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A cryptographically secure random generator for real English words. Contains 370,000 words.",
   "main": "dist/rword.js",
   "types": "dist/rword.d.ts",
   "scripts": {
     "watch-build": "npm run build -- -w",
+    "prepare": "tsc -p ./",
     "build": "tsc -p ./",
-    "test": "node dist/test",
-    "prepare": "tsc -p ./"
+    "test": "node dist/test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Xyfir/rword.git"
+    "url": "git+https://github.com/xyfir/rword.git"
   },
   "keywords": [
     "random",
@@ -38,8 +38,8 @@
   },
   "homepage": "https://github.com/Xyfir/rword#readme",
   "devDependencies": {
-    "@types/node": "^11.13.7",
-    "typescript": "^3.4.5"
+    "@types/node": "^14.11.2",
+    "typescript": "^4.0.3"
   },
   "dependencies": {}
 }
