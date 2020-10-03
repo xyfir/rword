@@ -1,7 +1,5 @@
 import { generateIndexes } from './lib/generate-indexes';
 import { shuffleWords } from './lib/shuffle-words';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
 
 let words: string[] = [];
 
@@ -40,7 +38,7 @@ export class rword {
       {
         contains: /.*/,
         length: '3-10',
-        capitalize: 'none'
+        capitalize: 'none',
       },
       opt
     );
@@ -78,7 +76,7 @@ export class rword {
     }
     // Filter out unwanted words
     else {
-      pool = words.filter(word => {
+      pool = words.filter((word) => {
         // Filter out words that don't match length
         if (length.exactly) {
           if (word.length != length.exactly) return false;
@@ -104,16 +102,16 @@ export class rword {
     const temp: string[] = [];
 
     // Select words by index
-    indexes.forEach(index => temp.push(pool[index]));
+    indexes.forEach((index) => temp.push(pool[index]));
     pool = temp;
 
     // Capitalize words
     switch (opt.capitalize) {
       case 'all':
-        pool = pool.map(w => w.toUpperCase());
+        pool = pool.map((w) => w.toUpperCase());
         break;
       case 'first':
-        pool = pool.map(w => w[0].toUpperCase() + w.slice(1));
+        pool = pool.map((w) => w[0].toUpperCase() + w.slice(1));
         break;
     }
 
