@@ -5,23 +5,25 @@ assert(typeof rword.generate() == 'string', 'generate() type');
 assert(Array.isArray(rword.generate(2)), 'generate(2) type');
 assert.equal(rword.generate(15).length, 15, 'generate(15) length');
 
-assert.equal(rword.words.length, 128660, 'word list (small)');
+assert.equal(rword.words.length, 123565, 'word list (small)');
 
 rword.load('big');
-assert.equal(rword.words.length, 370099, 'word list (big)');
+assert.equal(rword.words.length, 359742, 'word list (big)');
 
 const word = rword.words[0];
 rword.shuffle();
 assert.notEqual(rword.words[0], word, 'shuffle');
 
 assert.equal(
-  (rword.generate(10, { length: 4 }) as string[]).findIndex(w => w.length != 4),
+  (rword.generate(10, { length: 4 }) as string[]).findIndex(
+    (w) => w.length != 4
+  ),
   -1,
   'generate() exact length'
 );
 assert.equal(
   (rword.generate(100, { length: '3-4' }) as string[]).findIndex(
-    w => w.length > 4
+    (w) => w.length > 4
   ),
   -1,
   'generate() length range'
@@ -29,28 +31,28 @@ assert.equal(
 
 assert.equal(
   (rword.generate(10, { capitalize: 'none' }) as string[]).findIndex(
-    w => !/^[a-z]+$/.test(w)
+    (w) => !/^[a-z]+$/.test(w)
   ),
   -1,
   'generate() capitalize none'
 );
 assert.equal(
   (rword.generate(10, { capitalize: 'all' }) as string[]).findIndex(
-    w => !/^[A-Z]+$/.test(w)
+    (w) => !/^[A-Z]+$/.test(w)
   ),
   -1,
   'generate() capitalize all'
 );
 assert.equal(
   (rword.generate(10, { capitalize: 'first' }) as string[]).findIndex(
-    w => !/^[A-Z][a-z]+$/.test(w)
+    (w) => !/^[A-Z][a-z]+$/.test(w)
   ),
   -1,
   'generate() capitalize first'
 );
 
 assert.equal(
-  (rword.generate(10, { contains: /ing$/ }) as string[]).filter(w =>
+  (rword.generate(10, { contains: /ing$/ }) as string[]).filter((w) =>
     /ing$/.test(w)
   ).length,
   10,
