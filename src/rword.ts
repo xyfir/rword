@@ -33,6 +33,8 @@ export class rword {
   /**
    * Randomly generates words from the words array
    */
+  static generate(count?: 1, opt?: GenerateOptions): string;
+  static generate(count: number, opt?: GenerateOptions): string[];
   static generate(count: number = 1, opt?: GenerateOptions): string | string[] {
     opt = Object.assign(
       {
