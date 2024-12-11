@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "moduleResolution": "nodenext",
     "declaration": true,
     "sourceMap": true,
     "rootDir": "./src",
     "newLine": "LF",
     "target": "esnext",
-    "module": "commonjs",
+    "module": "NodeNext",
     "outDir": "./dist",
-    "strict": true
+    "strict": true,
   }
 }

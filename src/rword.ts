@@ -1,5 +1,7 @@
-import { generateIndexes } from './lib/generate-indexes';
-import { shuffleWords } from './lib/shuffle-words';
+import { generateIndexes } from './lib/generate-indexes.js';
+import { promises as fs } from 'fs';
+import { shuffleWords } from './lib/shuffle-words.js';
+import path from 'path';
 
 let words: string[] = [];
 
@@ -104,7 +106,7 @@ export class rword {
     const temp: string[] = [];
 
     // Select words by index
-    indexes.forEach((index) => temp.push(pool[index]));
+    indexes.forEach((index: number) => temp.push(pool[index]));
     pool = temp;
 
     // Capitalize words
@@ -150,12 +152,11 @@ export class rword {
   /**
    * Load and shuffle word list
    */
-  static load(list: 'big' | 'small') {
-    if (list === 'small') {
-      words = require('../words/small.json');
-    } else {
-      words = require('../words/big.json');
-    }
+  static async load(list: 'big' | 'small') {
+    const __dirname = path.dirname(new URL(import.meta.url).pathname);
+    const filePath = path.resolve(__dirname, `../words/${list}.json`);
+    const data = await fs.readFile(filePath, 'utf-8');
+    words = JSON.parse(data);
     rword.shuffle();
   }
 }
