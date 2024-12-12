@@ -1,6 +1,6 @@
-import { promises as fs } from 'fs';
 import { Random } from './Random.js';
 import path from 'path';
+import fs from 'fs';
 
 let words: string[] = [];
 
@@ -19,7 +19,7 @@ export class Rword {
   }
 
   /**
-   * Shuffles words and globalPool arrays
+   * Shuffles words array
    */
   static shuffle(): void {
     Random.shuffle(words);
@@ -28,10 +28,10 @@ export class Rword {
   /**
    * Load and shuffle word list
    */
-  static async load(list: 'big' | 'small') {
+  static load(list: 'big' | 'small'): void {
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     const filePath = path.resolve(__dirname, `../words/${list}.json`);
-    const data = await fs.readFile(filePath, 'utf-8');
+    const data = fs.readFileSync(filePath, 'utf-8');
     words = JSON.parse(data);
     Rword.shuffle();
   }

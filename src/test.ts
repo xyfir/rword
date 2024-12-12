@@ -1,7 +1,7 @@
 import { Rword } from './Rword.js';
 import assert from 'assert';
 
-await Rword.load('small');
+Rword.load('small');
 
 // Test generating words
 assert.equal(Rword.generate(0).length, 0, 'generate(0) should return 0 words');
@@ -29,7 +29,7 @@ assert.notEqual(
 );
 
 // Test loading big word list
-await Rword.load('big');
+Rword.load('big');
 assert.equal(
   Rword.words.length,
   359742,
