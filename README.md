@@ -8,11 +8,10 @@ A cryptographically secure Node.js random generator for real English words. Cont
 import { Rword } from 'rword';
 
 Rword.generate();
-// 'bioplasm'
+// ['bioplasm']
 
 Rword.generate(5);
 // ['verniers', 'recognizes', 'shockstall', 'aerofoils', 'sooling']
-
 ```
 
 # Words
@@ -32,6 +31,7 @@ All of the words contain _only_ `a-z` characters. There are no numbers, symbols,
 Generates words from the global words array.
 
 - `count: number` - Optional (default `1`) - How many words to return. An array of strings is always returned.
+
 ## `Rword.load(list)`
 
 Loads and shuffles word list. This is a blocking function that does a lot of processing, so don't call it often.

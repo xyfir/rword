@@ -13,7 +13,9 @@ export class Rword {
    * Randomly generates words from the words array
    */
   static generate(count: number = 1): string[] {
-    return Random.indexes(words.length, count).map((i) => words[i]);
+    return count
+      ? Random.indexes(words.length, count).map((i) => words[i])
+      : [];
   }
 
   /**

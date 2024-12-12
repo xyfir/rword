@@ -2,18 +2,38 @@ import { Rword } from './Rword.js';
 import assert from 'assert';
 
 await Rword.load('small');
-assert(Array.isArray(Rword.generate()), 'generate() type');
-assert(Array.isArray(Rword.generate(2)), 'generate(2) type');
-assert.equal(Rword.generate(15).length, 15, 'generate(15) length');
-assert.equal(Rword.generate(1).length, 1, 'generate(1) length');
 
-assert.equal(Rword.words.length, 123565, 'word list (small)');
+// Test generating words
+assert.equal(Rword.generate(0).length, 0, 'generate(0) should return 0 words');
+assert.equal(Rword.generate().length, 1, 'generate() should return 1 word');
+assert.equal(
+  Rword.generate(15).length,
+  15,
+  'generate(15) should return 15 words'
+);
 
-await Rword.load('big');
-assert.equal(Rword.words.length, 359742, 'word list (big)');
+// Test small word list size
+assert.equal(
+  Rword.words.length,
+  123565,
+  'Word list (small) should have 123565 words'
+);
 
-const word = Rword.words[0];
+// Test shuffling
+const firstWord = Rword.words[0];
 Rword.shuffle();
-assert.notEqual(Rword.words[0], word, 'shuffle');
+assert.notEqual(
+  Rword.words[0],
+  firstWord,
+  'First word should change after shuffle'
+);
 
-console.log('Tests completed without error');
+// Test loading big word list
+await Rword.load('big');
+assert.equal(
+  Rword.words.length,
+  359742,
+  'Word list (big) should have 359742 words'
+);
+
+console.log('All tests completed without error');
