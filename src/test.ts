@@ -1,39 +1,70 @@
 import { Rword } from './Rword.js';
 import assert from 'assert';
 
-Rword.load('small');
+const rwordSmall = new Rword('small');
 
 // Test generating words
-assert.equal(Rword.generate(0).length, 0, 'generate(0) should return 0 words');
-assert.equal(Rword.generate().length, 1, 'generate() should return 1 word');
+assert(
+  Array.isArray(rwordSmall.generate()),
+  'generate() should return an array'
+);
+assert(
+  Array.isArray(rwordSmall.generate(2)),
+  'generate(2) should return an array'
+);
 assert.equal(
-  Rword.generate(15).length,
+  rwordSmall.generate(15).length,
   15,
   'generate(15) should return 15 words'
 );
-
-// Test small word list size
 assert.equal(
-  Rword.words.length,
+  rwordSmall.generate(1).length,
+  1,
+  'generate(1) should return 1 word'
+);
+assert.equal(
+  rwordSmall.generate(0).length,
+  0,
+  'generate(0) should return 0 words'
+);
+
+// Test word content
+const generatedWords = rwordSmall.generate(5);
+generatedWords.forEach((word) => {
+  assert.equal(typeof word, 'string', 'Each generated word should be a string');
+});
+
+// Test word list size
+assert.equal(
+  rwordSmall.getWords().length,
   123565,
   'Word list (small) should have 123565 words'
 );
 
+const rwordBig = new Rword('big');
+assert.equal(
+  rwordBig.getWords().length,
+  359742,
+  'Word list (big) should have 359742 words'
+);
+
 // Test shuffling
-const firstWord = Rword.words[0];
-Rword.shuffle();
+const firstWord = rwordSmall.getWords()[0];
+rwordSmall.shuffle();
 assert.notEqual(
-  Rword.words[0],
+  rwordSmall.getWords()[0],
   firstWord,
   'First word should change after shuffle'
 );
 
-// Test loading big word list
-Rword.load('big');
-assert.equal(
-  Rword.words.length,
-  359742,
-  'Word list (big) should have 359742 words'
+// Test multiple shuffles
+const wordsBeforeShuffle = [...rwordSmall.getWords()];
+rwordSmall.shuffle();
+rwordSmall.shuffle();
+assert.notDeepEqual(
+  rwordSmall.getWords(),
+  wordsBeforeShuffle,
+  'Words should be shuffled'
 );
 
 console.log('All tests completed without error');

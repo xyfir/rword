@@ -7,10 +7,12 @@ A cryptographically secure Node.js random generator for real English words. Cont
 ```ts
 import { Rword } from 'rword';
 
-Rword.generate();
+const rword = new Rword('small');
+
+rword.generate();
 // ['bioplasm']
 
-Rword.generate(5);
+rword.generate(5);
 // ['verniers', 'recognizes', 'shockstall', 'aerofoils', 'sooling']
 ```
 
@@ -26,22 +28,22 @@ All of the words contain _only_ `a-z` characters. There are no numbers, symbols,
 
 # API
 
-## `Rword.generate(count)`
+## `new Rword(list)`
 
-Generates words from the global words array.
+Creates an instance of Rword with the specified word list.
+
+- `list: "big" | "small"` - The list to load into the Rword instance.
+
+## `rword.generate(count)`
+
+Generates words from the instance's words array.
 
 - `count: number` - Optional (default `1`) - How many words to return. An array of strings is always returned.
 
-## `Rword.load(list)`
+## `rword.shuffle()`
 
-Loads and shuffles word list. This is a blocking function that does a lot of processing, so don't call it often.
+Shuffles the instance's words array. This method is automatically called upon instantiation.
 
-- `list: "big" | "small"` - The list you'll load into Rword. `"small"` is automatically loaded upon first importing Rword.
+## `rword.getWords()`
 
-## `Rword.shuffle()`
-
-Shuffles both the global and pool words arrays. This method can most likely be ignored as it is automatically called on first run.
-
-## `Rword.words`
-
-The full (shuffled) words array that is used internally by Rword. Likely there's no need for this but if you'd like to bypass the Rword API and just utilize its words then this is what you'll need.
+Returns the full (shuffled) words array used internally by the Rword instance.
