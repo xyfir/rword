@@ -13,12 +13,8 @@ export class rword {
   /**
    * Randomly generates words from the words array
    */
-  static generate(count: number = 1): string | string[] {
-    const pool = words;
-    const indexes = generateIndexes(pool.length, count);
-    const temp: string[] = [];
-    indexes.forEach((index: number) => temp.push(pool[index]));
-    return count == 1 ? temp[0] : temp;
+  static generate(count: number = 1): string[] {
+    return generateIndexes(words.length, count).map(index => words[index]);
   }
 
   /**

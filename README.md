@@ -31,7 +31,7 @@ All of the words contain _only_ `a-z` characters. There are no numbers, symbols,
 
 Generates words from the global words array.
 
-- `count: number` - Optional (default `1`) - How many words to return. If `1` or not present, a string is returned. If greater than `1` an array of strings is returned.
+- `count: number` - Optional (default `1`) - How many words to return. An array of strings is always returned.
 ## `rword.load(list)`
 
 Loads and shuffles word list. This is a blocking function that does a lot of processing, so don't call it often.
