@@ -1,23 +1,23 @@
 A cryptographically secure Node.js random generator for real English words. Contains over 350,000 English words.
 
-**Note:** rword stores its words array in memory, and limited testing shows this to add about ~20-60 MB to Node's heap depending on which word list you choose. rword is built to be fast and self-contained without the need for a database and this price is paid at the expense of your RAM.
+**Note:** Rword stores its words array in memory, and limited testing shows this to add about ~20-60 MB to Node's heap depending on which word list you choose. Rword is built to be fast and self-contained without the need for a database and this price is paid at the expense of your RAM.
 
 # Examples
 
 ```ts
-import { rword } from 'rword';
+import { Rword } from 'rword';
 
-rword.generate();
+Rword.generate();
 // 'bioplasm'
 
-rword.generate(5);
+Rword.generate(5);
 // ['verniers', 'recognizes', 'shockstall', 'aerofoils', 'sooling']
 
 ```
 
 # Words
 
-rword comes with two word lists: `small`, with a "tiny" ~123k words, and `big`, with ~350k. By default, rword uses `small`.
+Rword comes with two word lists: `small`, with a "tiny" ~123k words, and `big`, with ~350k. By default, Rword uses `small`.
 
 All of the words contain _only_ `a-z` characters. There are no numbers, symbols, spaces, or diacritics.
 
@@ -27,21 +27,21 @@ All of the words contain _only_ `a-z` characters. There are no numbers, symbols,
 
 # API
 
-## `rword.generate(count)`
+## `Rword.generate(count)`
 
 Generates words from the global words array.
 
 - `count: number` - Optional (default `1`) - How many words to return. An array of strings is always returned.
-## `rword.load(list)`
+## `Rword.load(list)`
 
 Loads and shuffles word list. This is a blocking function that does a lot of processing, so don't call it often.
 
-- `list: "big" | "small"` - The list you'll load into rword. `"small"` is automatically loaded upon first importing rword.
+- `list: "big" | "small"` - The list you'll load into Rword. `"small"` is automatically loaded upon first importing Rword.
 
-## `rword.shuffle()`
+## `Rword.shuffle()`
 
 Shuffles both the global and pool words arrays. This method can most likely be ignored as it is automatically called on first run.
 
-## `rword.words`
+## `Rword.words`
 
-The full (shuffled) words array that is used internally by rword. Likely there's no need for this but if you'd like to bypass the rword API and just utilize its words then this is what you'll need.
+The full (shuffled) words array that is used internally by Rword. Likely there's no need for this but if you'd like to bypass the Rword API and just utilize its words then this is what you'll need.

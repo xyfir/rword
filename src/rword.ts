@@ -1,10 +1,10 @@
 import { promises as fs } from 'fs';
-import { Random } from './lib/random.js';
+import { Random } from './Random.js';
 import path from 'path';
 
 let words: string[] = [];
 
-export class rword {
+export class Rword {
   static get words(): string[] {
     return words;
   }
@@ -31,8 +31,8 @@ export class rword {
     const filePath = path.resolve(__dirname, `../words/${list}.json`);
     const data = await fs.readFile(filePath, 'utf-8');
     words = JSON.parse(data);
-    rword.shuffle();
+    Rword.shuffle();
   }
 }
 
-rword.load('small');
+Rword.load('small');
