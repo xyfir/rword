@@ -1,6 +1,5 @@
-import { generateIndexes } from './lib/generate-indexes.js';
 import { promises as fs } from 'fs';
-import { shuffleWords } from './lib/shuffle-words.js';
+import { Random } from './lib/random.js';
 import path from 'path';
 
 let words: string[] = [];
@@ -14,14 +13,14 @@ export class rword {
    * Randomly generates words from the words array
    */
   static generate(count: number = 1): string[] {
-    return generateIndexes(words.length, count).map(index => words[index]);
+    return Random.indexes(words.length, count).map((i) => words[i]);
   }
 
   /**
    * Shuffles words and globalPool arrays
    */
   static shuffle(): void {
-    shuffleWords(words);
+    Random.shuffle(words);
   }
 
   /**
