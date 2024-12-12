@@ -39,7 +39,6 @@
   "homepage": "https://github.com/xyfir/rword#readme",
   "devDependencies": {
     "@types/node": "^22.10.1",
-    "typescript": "^5.7.2",
-    "undici-types": "^7.1.0"
+    "typescript": "^5.7.2"
   }
 }
