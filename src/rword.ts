@@ -21,11 +21,9 @@ export class Rword {
   }
 
   private seededRandom(): number {
-    if (!this.seedChars) return Math.random();
-
     let hash = 0;
-    for (let i = 0; i < this.seedChars.length; i++) {
-      const charCode = this.seedChars[i];
+    for (let i = 0; i < this.seedChars!.length; i++) {
+      const charCode = this.seedChars![i];
       hash = (hash << 5) - hash + charCode + this.generations++;
       hash &= hash; // Convert to 32bit integer
     }
@@ -44,12 +42,14 @@ export class Rword {
   }
 
   generate(count: number = 1): string[] {
-    return count
+    return !count
+      ? []
+      : this.seedChars
       ? Array.from(
           { length: count },
           () => this.words[Math.floor(this.seededRandom() * this.words.length)]
         )
-      : [];
+      : Random.indexes(this.words.length, count).map((i) => this.words[i]);
   }
 
   shuffle(): void {
