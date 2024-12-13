@@ -20,36 +20,24 @@ export class Rword {
     if (!seed) this.shuffle();
   }
 
-  private seededRandom(): number {
-    let hash = 0;
-    for (let i = 0; i < this.seedChars!.length; i++) {
-      const charCode = this.seedChars![i];
-      hash = (hash << 5) - hash + charCode + this.generations++;
-      hash &= hash; // Convert to 32bit integer
-    }
-
-    // Xorshift algorithm constants
-    hash ^= hash << 13;
-    hash ^= hash >> 17;
-    hash ^= hash << 5;
-
-    // Ensure the result is a positive number and normalize
-    return (hash >>> 0) / 2 ** 32;
-  }
-
   getWords(): string[] {
     return this.words;
   }
 
-  generate(count: number = 1): string[] {
-    return !count
-      ? []
-      : this.seedChars
-      ? Array.from(
-          { length: count },
-          () => this.words[Math.floor(this.seededRandom() * this.words.length)]
-        )
-      : Random.indexes(this.words.length, count).map((i) => this.words[i]);
+  generate(length: number = 1): string[] {
+    if (length <= 0) return [];
+
+    if (this.seedChars) {
+      return Array.from({ length }, () => {
+        const index = Math.floor(
+          Random.seededValue(this.seedChars!, this.generations++) *
+            this.words.length
+        );
+        return this.words[index];
+      });
+    }
+
+    return Random.indexes(this.words.length, length).map((i) => this.words[i]);
   }
 
   shuffle(): void {

@@ -17,6 +17,26 @@ export class Random {
   }
 
   /**
+   * Generate a seeded random number between `0` (inclusive) and `1` (exclusive).
+   */
+  public static seededValue(seedChars: number[], generations: number): number {
+    let hash = 0;
+    for (let i = 0; i < seedChars.length; i++) {
+      const charCode = seedChars[i];
+      hash = (hash << 5) - hash + charCode + generations;
+      hash &= hash; // Convert to 32bit integer
+    }
+
+    // Xorshift algorithm constants
+    hash ^= hash << 13;
+    hash ^= hash >> 17;
+    hash ^= hash << 5;
+
+    // Ensure the result is a positive number and normalize
+    return (hash >>> 0) / 2 ** 32;
+  }
+
+  /**
    * Generate a random number between `min` (inclusive) and `max` (exclusive).
    */
   public static range(min: number, max: number): number {
