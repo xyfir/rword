@@ -12,8 +12,15 @@ export class Random {
    * Generate a random number between `0` (inclusive) and `1` (exclusive). A
    *  drop in replacement for `Math.random()`
    */
-  public static value(): number {
+  private static value(): number {
     return this.intToFloat(parseInt(crypto.randomBytes(8).toString('hex'), 16));
+  }
+
+  /**
+   * Generate a random number between `min` (inclusive) and `max` (exclusive).
+   */
+  private static range(min: number, max: number): number {
+    return Math.floor(this.value() * (max - min) + min);
   }
 
   /**
@@ -34,13 +41,6 @@ export class Random {
 
     // Ensure the result is a positive number and normalize
     return (hash >>> 0) / 2 ** 32;
-  }
-
-  /**
-   * Generate a random number between `min` (inclusive) and `max` (exclusive).
-   */
-  public static range(min: number, max: number): number {
-    return Math.floor(this.value() * (max - min) + min);
   }
 
   /**
