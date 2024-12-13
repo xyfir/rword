@@ -3,8 +3,8 @@
   "type": "module",
   "version": "4.0.0",
   "description": "A cryptographically secure random generator for real English words. Contains 370,000 words.",
-  "main": "dist/rword.js",
-  "types": "dist/rword.d.ts",
+  "main": "dist/Rword.js",
+  "types": "dist/Rword.d.ts",
   "scripts": {
     "watch-build": "npm run build -- -w",
     "build": "rm -rf dist && tsc -p ./",
@@ -32,9 +32,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/xyfir/rword/issues"
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "homepage": "https://github.com/xyfir/rword#readme",
   "devDependencies": {
