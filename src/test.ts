@@ -81,4 +81,9 @@ assert.notDeepEqual(
   rwordSeeded1.generate(5),
   'Seeded generations should increment'
 );
+assert.deepEqual(
+  rwordSeeded1.generate(4),
+  ['enfroze', 'broos', 'giltcup', 'scaldino'],
+  'Seeded generation algorithm should not change'
+);
 console.log('All tests completed without error');

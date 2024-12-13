@@ -61,6 +61,24 @@ export class Random {
   }
 
   /**
+   * Shuffle the words in place using a seed.
+   */
+  public static seededShuffle(words: string[], seedChars: number[]): void {
+    let i = 0;
+    let j = 0;
+    let temp = '';
+    let generations = 0;
+
+    for (i = words.length - 1; i > 0; i -= 1) {
+      j = Math.floor(this.seededValue(seedChars, generations++) * (i + 1));
+
+      temp = words[i];
+      words[i] = words[j];
+      words[j] = temp;
+    }
+  }
+
+  /**
    * Randomly generate numbers for indexes within the words array.
    *
    * @param length - The length of the words array.
