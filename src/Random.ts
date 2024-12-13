@@ -46,31 +46,18 @@ export class Random {
   /**
    * Shuffle the words in place.
    */
-  public static shuffle(words: string[]): void {
-    let i = 0;
-    let j = 0;
-    let temp = '';
-
-    for (i = words.length - 1; i > 0; i -= 1) {
-      j = Random.range(0, i + 1);
-
-      temp = words[i];
-      words[i] = words[j];
-      words[j] = temp;
-    }
-  }
-
-  /**
-   * Shuffle the words in place using a seed.
-   */
-  public static seededShuffle(words: string[], seedChars: number[]): void {
-    let i = 0;
-    let j = 0;
-    let temp = '';
+  public static shuffle(words: string[], seedChars?: number[]): void {
     let generations = 0;
+    let temp = '';
+    let i = 0;
+    let j = 0;
 
     for (i = words.length - 1; i > 0; i -= 1) {
-      j = Math.floor(this.seededValue(seedChars, generations++) * (i + 1));
+      if (seedChars) {
+        j = Math.floor(this.seededValue(seedChars, generations++) * (i + 1));
+      } else {
+        j = Random.range(0, i + 1);
+      }
 
       temp = words[i];
       words[i] = words[j];

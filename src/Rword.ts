@@ -17,8 +17,7 @@ export class Rword {
       ? Array.from(seed).map((c) => c.charCodeAt(0))
       : undefined;
 
-    if (this.seedChars) this.shuffleWithSeed();
-    else this.shuffle();
+    this.shuffle();
   }
 
   getWords(): string[] {
@@ -42,10 +41,6 @@ export class Rword {
   }
 
   shuffle(): void {
-    Random.shuffle(this.words);
-  }
-
-  shuffleWithSeed(): void {
-    Random.seededShuffle(this.words, this.seedChars!);
+    Random.shuffle(this.words, this.seedChars);
   }
 }
