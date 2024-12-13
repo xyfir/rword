@@ -68,12 +68,17 @@ assert.notDeepEqual(
 );
 
 // Test seeded generation
-const seed = 12345;
+const seed = 'abcdefghijklmnopqrstuvwxyz123';
 const rwordSeeded1 = new Rword('small', seed);
 const rwordSeeded2 = new Rword('small', seed);
 assert.deepEqual(
   rwordSeeded1.generate(5),
   rwordSeeded2.generate(5),
   'Seeded generations should be identical'
+);
+assert.notDeepEqual(
+  rwordSeeded1.generate(5),
+  rwordSeeded1.generate(5),
+  'Seeded generations should increment'
 );
 console.log('All tests completed without error');

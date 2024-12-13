@@ -3,29 +3,40 @@ import path from 'path';
 import fs from 'fs';
 
 export class Rword {
+  private generations = 0;
+  private seedChars: number[] | undefined;
   private words: string[];
-  private seed: number | undefined;
 
-  constructor(list: 'big' | 'small', seed?: number) {
+  constructor(list: 'big' | 'small', seed?: string) {
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     const filePath = path.resolve(__dirname, `../words/${list}.json`);
     const data = fs.readFileSync(filePath, 'utf-8');
     this.words = JSON.parse(data);
-    this.seed = seed;
 
-    if (!this.seed) this.shuffle();
+    this.seedChars = seed
+      ? Array.from(seed).map((c) => c.charCodeAt(0))
+      : undefined;
+
+    if (!seed) this.shuffle();
   }
 
   private seededRandom(): number {
-    if (!this.seed) return Math.random();
+    if (!this.seedChars) return Math.random();
+
+    let hash = 0;
+    for (let i = 0; i < this.seedChars.length; i++) {
+      const charCode = this.seedChars[i];
+      hash = (hash << 5) - hash + charCode + this.generations++;
+      hash &= hash; // Convert to 32bit integer
+    }
 
     // Xorshift algorithm constants
-    this.seed ^= this.seed << 13;
-    this.seed ^= this.seed >> 17;
-    this.seed ^= this.seed << 5;
+    hash ^= hash << 13;
+    hash ^= hash >> 17;
+    hash ^= hash << 5;
 
     // Ensure the result is a positive number and normalize
-    return (this.seed >>> 0) / 2 ** 32;
+    return (hash >>> 0) / 2 ** 32;
   }
 
   getWords(): string[] {
