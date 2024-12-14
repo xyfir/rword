@@ -63,3 +63,9 @@ Shuffles the instance's words array. This method is automatically called upon in
 ## `rword.getWords()`
 
 Returns the full (shuffled) words array used internally by the Rword instance.
+
+## `rword.load(words)`
+
+Loads a new array of words into the instance and shuffles it. The input array will be mutated.
+
+- `words: string[]` - The array of words to load into the instance.
