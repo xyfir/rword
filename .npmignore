@@ -1,6 +1,0 @@
-tsconfig.json
-.prettierrc
-dist/test.*
-.gitignore
-dist/*.map
-src/
