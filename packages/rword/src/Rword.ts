@@ -10,7 +10,7 @@ export class Rword {
       ? Array.from(seed).map((c) => c.charCodeAt(0))
       : undefined;
 
-    this.load(words);
+    this.load(words.slice());
   }
 
   public generate(length: number = 1): string[] {
