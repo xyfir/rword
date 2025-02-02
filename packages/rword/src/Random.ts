@@ -1,5 +1,3 @@
-import * as crypto from 'crypto';
-
 export class Random {
   /**
    * Transform an integer to a floating point number.
@@ -13,7 +11,14 @@ export class Random {
    *  drop in replacement for `Math.random()`
    */
   private static value(): number {
-    return this.intToFloat(parseInt(crypto.randomBytes(8).toString('hex'), 16));
+    return this.intToFloat(
+      parseInt(
+        Buffer.from(
+          globalThis.crypto.getRandomValues(new Uint8Array(8)),
+        ).toString('hex'),
+        16,
+      ),
+    );
   }
 
   /**
