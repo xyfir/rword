@@ -1,5 +1,7 @@
 A cryptographically secure Node.js random generator for real English words. Contains over 350,000 English words.
 
+Upgrading from V3? See the [upgrade guide](#v3-to-v4-migration-guide).
+
 **Note:** Rword stores its words array in memory, and limited testing shows this to add about ~20-60 MB to Node's heap depending on which word list you choose. Rword is built to be fast and self-contained without the need for a database and this price is paid at the expense of your RAM.
 
 ```
@@ -40,7 +42,7 @@ seedRword2.generate(3); // ['abandon', 'gunpowder', 'pole']
 
 # Words
 
-Rword comes with two prebuilt English wordlists you can install.
+Rword offers two prebuilt English wordlists you can install.
 
 - For a smaller list (~123k words), install and import from `rword-english-recommended`.
 - For a larger list (~350k words), install and import from `rword-english-extended`.
@@ -49,6 +51,8 @@ All of the words contain _only_ `a-z` characters. There are no numbers, symbols,
 
 - `rword-english-recommended` contains only words 3-10 characters in length, while `rword-english-extended` has no length requirements.
 - `rword-english-recommended` is likely to decrease in size in the future, while `rword-english-extended` may increase.
+
+You can also provide your own custom list as a string array or modify a prebuilt list if you'd like.
 
 # API
 
@@ -80,3 +84,58 @@ Returns the full (shuffled) words array used internally by the Rword instance.
 Loads a new array of words into the instance and shuffles it.
 
 - `words: string[]` - The array of words to load into the instance.
+
+# V3 to V4 Migration Guide
+
+- **Import:** Instead of importing a global `rword` instance, import the `Rword` class and then a separate word list, like from the `rword-english-recommended` or `rword-english-extended` packages.
+- **Instantiation:** Create an instance of Rword with the desired word list and optional seed.
+- **API Methods:** The methods now belong to an instance and the options object is removed for filtering.
+
+## Upgrade Steps
+
+1. **Import:**
+
+   - V3
+
+   ```ts
+   import { rword } from 'rword';
+   ```
+
+   - V4
+
+   ```ts
+   import { words } from 'rword-english-recommended'; // or 'rword-english-extended'
+   import { Rword } from 'rword'; // Capitalized export
+   ```
+
+2. **Create instance:**
+
+   - V3: Not needed
+   - V4
+
+   ```ts
+   const rword = new Rword(words);
+   ```
+
+3. **Generate words:**
+
+   - V3
+
+   ```ts
+   // has filtering options
+   // might return a string, or an array
+   rword.generate(5, { length: '3-10', contains: /pattern/ });
+   // has generateFromPool method for improved performance
+   rword.generateFromPool(5);
+   ```
+
+   - V4
+
+   ```ts
+   // only the number of words is accepted
+   // always returns an array
+   // only has a single generate method
+   rword.generate(5);
+   ```
+
+If you need the old filtering options, you should do this yourself on a words array and then load that new aray into an instance.
