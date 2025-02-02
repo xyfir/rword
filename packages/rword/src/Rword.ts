@@ -1,22 +1,16 @@
 import { Random } from './Random.js';
-import path from 'path';
-import fs from 'fs';
 
 export class Rword {
   private generations = 0;
   private seedChars: number[] | undefined;
   private words: string[] = [];
 
-  constructor(list: 'big' | 'small', seed?: string) {
-    const __dirname = path.dirname(new URL(import.meta.url).pathname);
-    const filePath = path.resolve(__dirname, `../words/${list}.json`);
-    const data = fs.readFileSync(filePath, 'utf-8');
-
+  constructor(words: string[], seed?: string) {
     this.seedChars = seed
       ? Array.from(seed).map((c) => c.charCodeAt(0))
       : undefined;
 
-    this.load(JSON.parse(data));
+    this.load(words);
   }
 
   public generate(length: number = 1): string[] {

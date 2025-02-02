@@ -7,8 +7,7 @@
   "types": "dist/Rword.d.ts",
   "scripts": {
     "watch-build": "npm run build -- -w",
-    "build": "rm -rf dist && tsc -p ./",
-    "test": "npm run build && node dist/test"
+    "build": "rm -rf dist && tsc -p ./"
   },
   "repository": {
     "type": "git",
@@ -28,7 +27,7 @@
     "csprng",
     "cprng"
   ],
-  "author": "Xyfir, LLC (https://www.xyfir.com)",
+  "author": "Xyfir LLC (https://www.xyfir.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/xyfir/rword/issues"

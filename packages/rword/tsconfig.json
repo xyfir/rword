@@ -5,10 +5,11 @@
     "declaration": true,
     "sourceMap": true,
     "rootDir": "./src",
+    "baseUrl": ".",
     "newLine": "LF",
     "target": "esnext",
     "module": "NodeNext",
     "outDir": "./dist",
-    "strict": true,
+    "strict": true
   }
 }

@@ -1,31 +1,33 @@
-import { Rword } from './Rword.js';
+import { words as smallWords } from '../rword-english-recommended/index.mjs';
+import { words as bigWords } from '../rword-english-extended/index.mjs';
+import { Rword } from '../rword/dist/Rword.js';
 import assert from 'assert';
 
-const rwordSmall = new Rword('small');
+const rwordSmall = new Rword(smallWords);
 
 // Test generating words
 assert(
   Array.isArray(rwordSmall.generate()),
-  'generate() should return an array'
+  'generate() should return an array',
 );
 assert(
   Array.isArray(rwordSmall.generate(2)),
-  'generate(2) should return an array'
+  'generate(2) should return an array',
 );
 assert.equal(
   rwordSmall.generate(15).length,
   15,
-  'generate(15) should return 15 words'
+  'generate(15) should return 15 words',
 );
 assert.equal(
   rwordSmall.generate(1).length,
   1,
-  'generate(1) should return 1 word'
+  'generate(1) should return 1 word',
 );
 assert.equal(
   rwordSmall.generate(0).length,
   0,
-  'generate(0) should return 0 words'
+  'generate(0) should return 0 words',
 );
 
 // Test word content
@@ -38,14 +40,14 @@ generatedWords.forEach((word) => {
 assert.equal(
   rwordSmall.getWords().length,
   123565,
-  'Word list (small) should have 123565 words'
+  'Word list (small) should have 123565 words',
 );
 
-const rwordBig = new Rword('big');
+const rwordBig = new Rword(bigWords);
 assert.equal(
   rwordBig.getWords().length,
   359742,
-  'Word list (big) should have 359742 words'
+  'Word list (big) should have 359742 words',
 );
 
 // Test shuffling
@@ -54,7 +56,7 @@ rwordSmall.shuffle();
 assert.notEqual(
   rwordSmall.getWords()[0],
   firstWord,
-  'First word should change after shuffle'
+  'First word should change after shuffle',
 );
 
 // Test multiple shuffles
@@ -64,26 +66,26 @@ rwordSmall.shuffle();
 assert.notDeepEqual(
   rwordSmall.getWords(),
   wordsBeforeShuffle,
-  'Words should be shuffled'
+  'Words should be shuffled',
 );
 
 // Test seeded generation
 const seed = 'abcdefghijklmnopqrstuvwxyz123';
-const rwordSeeded1 = new Rword('small', seed);
-const rwordSeeded2 = new Rword('small', seed);
+const rwordSeeded1 = new Rword(smallWords, seed);
+const rwordSeeded2 = new Rword(smallWords, seed);
 assert.deepEqual(
   rwordSeeded1.generate(5),
   rwordSeeded2.generate(5),
-  'Seeded generations should be identical'
+  'Seeded generations should be identical',
 );
 assert.notDeepEqual(
   rwordSeeded1.generate(5),
   rwordSeeded1.generate(5),
-  'Seeded generations should increment'
+  'Seeded generations should increment',
 );
 assert.deepEqual(
   rwordSeeded1.generate(4),
   ['enfroze', 'broos', 'giltcup', 'scaldino'],
-  'Seeded generation algorithm should not change'
+  'Seeded generation algorithm should not change',
 );
 console.log('All tests completed without error');
