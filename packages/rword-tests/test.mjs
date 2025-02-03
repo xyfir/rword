@@ -85,7 +85,7 @@ assert.notDeepEqual(
 );
 assert.deepEqual(
   rwordSeeded1.generate(4),
-  ['enfroze', 'broos', 'giltcup', 'scaldino'],
+  ['remede', 'cuttings', 'cradlesong', 'pyrosome'],
   'Seeded generation algorithm should not change',
 );
 console.log('All tests completed without error');

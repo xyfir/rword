@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export class Random {
   /**
    * Transform an integer to a floating point number.
@@ -11,14 +13,7 @@ export class Random {
    *  drop in replacement for `Math.random()`
    */
   private static value(): number {
-    return this.intToFloat(
-      parseInt(
-        Buffer.from(
-          globalThis.crypto.getRandomValues(new Uint8Array(8)),
-        ).toString('hex'),
-        16,
-      ),
-    );
+    return this.intToFloat(parseInt(crypto.randomBytes(8).toString('hex'), 16));
   }
 
   /**
@@ -31,21 +26,19 @@ export class Random {
   /**
    * Generate a seeded random number between `0` (inclusive) and `1` (exclusive).
    */
-  public static seededValue(seedChars: number[], generations: number): number {
-    let hash = 0;
-    for (let i = 0; i < seedChars.length; i++) {
-      const charCode = seedChars[i];
-      hash = (hash << 5) - hash + charCode + generations;
-      hash &= hash; // Convert to 32bit integer
-    }
+  public static seededValue(seedChars: number[], counter: number): number {
+    const counterBuffer = Buffer.alloc(8);
+    const seedBuffer = Buffer.from(seedChars);
+    const hmac = crypto.createHmac('sha256', seedBuffer);
 
-    // Xorshift algorithm constants
-    hash ^= hash << 13;
-    hash ^= hash >> 17;
-    hash ^= hash << 5;
+    counterBuffer.writeBigUInt64LE(BigInt(counter));
+    hmac.update(counterBuffer);
 
-    // Ensure the result is a positive number and normalize
-    return (hash >>> 0) / 2 ** 32;
+    const hash = hmac.digest();
+
+    const integer = hash.readBigUInt64LE(0);
+    const value = Number(integer) / Math.pow(2, 64);
+    return value;
   }
 
   /**
